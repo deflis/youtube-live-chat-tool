@@ -26,6 +26,7 @@
   ],
   "build": {
     "appId": "live.riel.youtube.chat",
+    "productName": "YouTube Live Chat Tool",
     "directories": {
       "output": "dist"
     },
