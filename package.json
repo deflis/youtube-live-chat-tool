@@ -2,21 +2,13 @@
   "name": "youtube-live-chat-tool",
   "version": "0.0.0",
   "private": true,
-  "description": "",
+  "description": "YouTube Live 用コメントビューワ",
   "main": "lib/electron/index.js",
-  "scripts": {
-    "start": "electron .",
-    "watch": "run-p watch:*",
-    "watch:browser": "parcel watch src/browser/index.html --public-url ./ --out-dir lib/browser --no-hmr",
-    "watch:electron": "parcel watch src/electron/*.ts --target node --out-dir lib/electron",
-    "build": "run-s build:clean build:parcel build:electron",
-    "build:clean": "rimraf lib dist",
-    "build:parcel": "run-s build:parcel:*",
-    "build:parcel:browser": "parcel build src/browser/index.html --public-url ./ --no-minify --out-dir lib/browser",
-    "build:parcel:electron": "parcel build src/electron/*.ts --target node --no-minify --out-dir lib/electron",
-    "build:electron": "run-s build:electron:*",
-    "build:electron:win-x64": "electron-builder --win --x64"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deflis/youtube-live-chat-tool.git"
   },
+  "homepage": "https://narou-riel.booth.pm/items/2710811",
   "engines": {
     "node": "14",
     "browser": "chrome 89"
@@ -49,6 +41,19 @@
     }
   },
   "license": "ISC",
+  "scripts": {
+    "start": "electron .",
+    "watch": "run-p watch:*",
+    "watch:browser": "parcel watch src/browser/index.html --public-url ./ --out-dir lib/browser --no-hmr",
+    "watch:electron": "parcel watch src/electron/*.ts --target node --out-dir lib/electron",
+    "build": "run-s build:clean build:parcel build:electron",
+    "build:clean": "rimraf lib dist",
+    "build:parcel": "run-s build:parcel:*",
+    "build:parcel:browser": "parcel build src/browser/index.html --public-url ./ --no-minify --out-dir lib/browser",
+    "build:parcel:electron": "parcel build src/electron/*.ts --target node --no-minify --out-dir lib/electron",
+    "build:electron": "run-s build:electron:*",
+    "build:electron:win-x64": "electron-builder --win --x64"
+  },
   "devDependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
