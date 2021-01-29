@@ -1,4 +1,4 @@
-import { BrowserWindow } from "electron";
+import { BrowserWindow, shell } from "electron";
 import { join } from "path";
 
 import { ConfigStore } from "../../interface/config";
@@ -25,11 +25,16 @@ export function createWindow(store: ConfigStore) {
       preload: join(__dirname, "preload.js"),
     },
   }));
+  win.setMenu(null);
   win.on("resize", () => {
     if (win) {
       const [width, height] = win.getSize();
       store.set("mainWindowSize", { width, height });
     }
+  });
+  win.webContents.on("new-window", (event, url) => {
+    event.preventDefault();
+    shell.openExternal(url);
   });
   const handler = (channel: string, ...args: any[]) => {
     win.webContents.send(channel, ...args);

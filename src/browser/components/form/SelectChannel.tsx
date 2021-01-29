@@ -1,31 +1,37 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useToggle } from "react-use";
 
 import {
+  Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
+  Grid,
   InputLabel,
   MenuItem,
-  TextField,
+  styled,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import BuildIcon from "@material-ui/icons/Build";
 
-import { configThunks, selectConfigChannels } from "../../modules/config";
+import { selectConfigChannels } from "../../modules/config";
 import { selectChannelId, systemThunks } from "../../modules/system";
 import { useAppDispatch } from "../../store";
 import { StyledFormControl } from "../atom/StyledFormControl";
 import { StyledSelect } from "../atom/StyledSelect";
+import { AddChannel } from "../dialog/AddChannel";
+import { EditChannels } from "../dialog/EditChannels";
+
+const Spacing = styled(Box)(({ theme }) => ({
+  margin: theme.spacing(1),
+}));
 
 export function SelectChannel() {
-  const [addModal, toggleAddModal] = useToggle(false);
+  const [add, toggleAdd] = useToggle(false);
+  const [edit, toggleEdit] = useToggle(false);
+
   const current = useSelector(selectChannelId);
   const channels = useSelector(selectConfigChannels);
+
   const dispatch = useAppDispatch();
   const handleChange: React.ChangeEventHandler<{
     value: unknown;
@@ -38,75 +44,41 @@ export function SelectChannel() {
   );
 
   return (
-    <>
-      <StyledFormControl variant="outlined">
-        <InputLabel>チャンネル</InputLabel>
-        <StyledSelect
-          value={current}
-          onChange={handleChange}
-          endAdornment={
-            <IconButton onClick={toggleAddModal}>
-              <AddIcon />
-            </IconButton>
-          }
-        >
-          {channels.map(({ id, name }) => (
-            <MenuItem value={id} key={id}>
-              {name}
-            </MenuItem>
-          ))}
-        </StyledSelect>
-      </StyledFormControl>
-      <AddDialog open={addModal} toggleOpen={toggleAddModal} />
-    </>
-  );
-}
-
-function AddDialog({
-  open,
-  toggleOpen,
-}: {
-  open: boolean;
-  toggleOpen: () => void;
-}) {
-  const [newId, setNewId] = useState("");
-  const dispatch = useAppDispatch();
-
-  const handleChangeNewId: React.ChangeEventHandler<HTMLInputElement> = useCallback(
-    async (event) => {
-      const source = event.target.value as string;
-      setNewId(source);
-    },
-    []
-  );
-  const handleOk = useCallback(() => {
-    dispatch(configThunks.addChannel(newId));
-    toggleOpen();
-  }, [newId, dispatch]);
-
-  return (
-    <Dialog open={open} onClose={toggleOpen}>
-      <DialogTitle>チャンネル追加</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          https://www.youtube.com/channel/{"{id}"}のid部分を入力してください
-        </DialogContentText>
-        <TextField
-          autoFocus
-          label="チャンネルID"
-          fullWidth
-          value={newId}
-          onChange={handleChangeNewId}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={toggleOpen} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={handleOk} color="primary">
-          Subscribe
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <Grid container>
+      {channels.length > 0 && (
+        <Grid item>
+          <StyledFormControl variant="outlined">
+            <InputLabel>チャンネル</InputLabel>
+            <StyledSelect value={current} onChange={handleChange}>
+              {channels.map(({ id, name }) => (
+                <MenuItem value={id} key={id}>
+                  {name}
+                </MenuItem>
+              ))}
+            </StyledSelect>
+          </StyledFormControl>
+        </Grid>
+      )}
+      <Grid item>
+        <Spacing>
+          <Button variant="contained" onClick={toggleAdd}>
+            <AddIcon />
+            追加
+          </Button>
+        </Spacing>
+      </Grid>
+      {channels.length > 0 && (
+        <Grid item>
+          <Spacing>
+            <Button variant="contained" onClick={toggleEdit}>
+              <BuildIcon />
+              管理
+            </Button>
+          </Spacing>
+        </Grid>
+      )}
+      <AddChannel open={add} toggleOpen={toggleAdd} />
+      <EditChannels open={edit} toggleOpen={toggleEdit} />
+    </Grid>
   );
 }

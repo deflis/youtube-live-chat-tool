@@ -2,21 +2,21 @@ import {
   createAsyncThunk,
   createSelector,
   createSlice,
-  PayloadAction,
 } from "@reduxjs/toolkit";
+import { stat } from "fs";
 import { AsyncThunkConfig, RootState } from "../rootReducer";
 import { browserThunks } from "./browser";
 import { configThunks } from "./config";
-import { obsThunks } from "./obs";
+import { obsThunks, selectObs } from "./obs";
 import { youtubeThunks } from "./youtube";
 
 type State = {
-  channeld: string;
+  channelId: string;
   videoId: string;
 };
 
 const initialState: State = {
-  channeld: "",
+  channelId: "",
   videoId: "",
 };
 
@@ -26,9 +26,9 @@ const onload = createAsyncThunk<void, void, AsyncThunkConfig>(
     await Promise.all([
       dispatch(configThunks.getBrowserSource()),
       dispatch(configThunks.getChannels()),
-      dispatch(obsThunks.listenStatusChange()),
-      dispatch(obsThunks.getStatus()),
-      dispatch(obsThunks.getBrowserSources()),
+      await dispatch(obsThunks.listenStatusChange()),
+      await dispatch(obsThunks.getStatus()),
+      await dispatch(obsThunks.getBrowserSources()),
     ]);
   }
 );
@@ -36,7 +36,9 @@ const onload = createAsyncThunk<void, void, AsyncThunkConfig>(
 const setChannelId = createAsyncThunk<string, string, AsyncThunkConfig>(
   "system/setChannelId",
   async (id, { dispatch }) => {
-    dispatch(youtubeThunks.videosByChannel(id));
+    if (id !== "") {
+      dispatch(youtubeThunks.videosByChannel(id));
+    }
     return id;
   }
 );
@@ -73,7 +75,7 @@ const systemModule = createSlice({
   extraReducers: (builder) => {
     builder.addCase(onload.fulfilled, (state) => state);
     builder.addCase(setChannelId.fulfilled, (state, action) => {
-      return { ...state, channeld: action.payload };
+      return { ...state, channelId: action.payload };
     });
     builder.addCase(setVideoId.fulfilled, (state, action) => {
       return { ...state, videoId: action.payload };
@@ -91,15 +93,31 @@ export const systemThunks = {
   changeBrowserSource,
 };
 
-export const systemSelector = (state: RootState) => state.system;
+export const selectSystem = (state: RootState) => state.system;
 
 export const selectChannelId = createSelector(
-  systemSelector,
-  (state) => state.channeld
+  selectSystem,
+  (state) => state.channelId
 );
 export const selectVideoId = createSelector(
-  systemSelector,
+  selectSystem,
   (state) => state.videoId
+);
+
+export const selectIsSetVideoId = createSelector(
+  selectSystem,
+  (state) => state.videoId !== ""
+);
+export const selectSystemSteps = createSelector(
+  (state: RootState) => state.system.channelId,
+  (state: RootState) => state.system.videoId,
+  (state: RootState) => state.obs.status,
+  (channelId, videoId, status) => {
+    if (channelId === "") return 0;
+    if (videoId === "") return 1;
+    if (!status) return 2;
+    return 3;
+  }
 );
 
 export default systemModule;

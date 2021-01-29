@@ -1,6 +1,6 @@
 {
   "name": "youtube-live-chat-tool",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "YouTube Live 用コメントビューワ",
   "main": "lib/electron/index.js",

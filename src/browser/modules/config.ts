@@ -16,7 +16,7 @@ const initialState: State = {
   browserSource: "",
 };
 
-const getChannels = createAsyncThunk("config/getChannel", async () => {
+const getChannels = createAsyncThunk("config/getChannel", () => {
   return window.config.getChannels();
 });
 

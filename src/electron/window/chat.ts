@@ -3,6 +3,7 @@ import {
   Menu,
   MenuItem,
   MenuItemConstructorOptions,
+  shell,
 } from "electron";
 import { ConfigStore } from "../../interface/config";
 import { liveChatUrl } from "../../util/youtube";
@@ -77,6 +78,10 @@ export function createChatViewer(store: ConfigStore, id: string) {
   });
   win.on("close", () => {
     windows.delete(id);
+  });
+  win.webContents.on("new-window", (event, url) => {
+    event.preventDefault();
+    shell.openExternal(url);
   });
   win.loadURL(liveChatUrl(id));
 }
