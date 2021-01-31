@@ -27,11 +27,13 @@ const onload = createAsyncThunk<void, void, AsyncThunkConfig>(
       dispatch(configThunks.getChannels()),
     ]);
     await dispatch(obsThunks.listenStatusChange());
-    await Promise.all([
-      dispatch(obsThunks.connect()),
-      dispatch(obsThunks.getStatus()),
-      dispatch(obsThunks.getBrowserSources()),
-    ]);
+    const status = await dispatch(obsThunks.getStatus());
+    if (!status.payload) {
+      await dispatch(obsThunks.connect());
+      await dispatch(obsThunks.getBrowserSources());
+    } else {
+      await dispatch(obsThunks.getBrowserSources());
+    }
   }
 );
 
