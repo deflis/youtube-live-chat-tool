@@ -1,8 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
-import { join } from "path";
-import { liveChatUrl } from "../../util/youtube";
-import { ConfigStore } from "../../interface/config";
 import { EventEmitter } from "events";
+
+import { ConfigStore } from "../../interface/config";
 import { createChatViewer } from "../window/chat";
 import { createWindow } from "../window/main";
 

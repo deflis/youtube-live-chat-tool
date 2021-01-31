@@ -1,32 +1,40 @@
 import { Channel } from "./config";
 import { YouTubeVideos } from "./YouTubeVideos";
 
-export type IpcResut<TResult = void, TError = undefined> = Promise<{
-  status: "ok" | "ng";
-  result?: TResult;
-  error?: TError;
-}>;
+export type IpcResultValue<TResult = void, TError = any> =
+  | {
+      status: true;
+      result: TResult;
+    }
+  | {
+      status: false;
+      error: TError;
+    };
+
+export type IpcResult<TResult = void, TError = any> = Promise<
+  IpcResultValue<TResult, TError>
+>;
 
 export interface ObsIpc {
-  connect(): Promise<boolean>;
-  getStatus(): Promise<boolean>;
-  onStatusChange(handler: (status: boolean) => void): Promise<() => void>;
-  getBrowserSources(): Promise<string[]>;
-  setLiveChatUrl(id: string): Promise<boolean>;
+  connect(): IpcResult;
+  getStatus(): IpcResult<boolean>;
+  onStatusChange(handler: (status: boolean) => void): IpcResult<() => void>;
+  getBrowserSources(): IpcResult<string[]>;
+  setLiveChatUrl(id: string): IpcResult;
 }
 
 export interface YouTubeIpc {
-  videosByChannel(id: string): Promise<YouTubeVideos>;
+  videosByChannel(id: string): IpcResult<YouTubeVideos>;
 }
 
 export interface BrowserIpc {
-  chat(videoId: string): Promise<void>;
+  chat(videoId: string): IpcResult;
 }
 
 export interface ConfigIpc {
-  getChannels(): Promise<Channel[]>;
-  setChannels(channels: Channel[]): Promise<void>;
-  addChannel(id: string): Promise<void>;
-  getBrowserSource(): Promise<string>;
-  setBrowserSource(source: string): Promise<void>;
+  getChannels(): IpcResult<Channel[]>;
+  setChannels(channels: Channel[]): IpcResult;
+  addChannel(id: string): IpcResult;
+  getBrowserSource(): IpcResult<string>;
+  setBrowserSource(source: string): IpcResult<void>;
 }

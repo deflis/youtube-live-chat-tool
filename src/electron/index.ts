@@ -7,8 +7,8 @@ import { initConfig } from "./ipc/config";
 app.once("ready", () => {
   const store = initConfig();
   initObs(store);
-  initBrowser(store);
   initYouTube();
+  initBrowser(store);
 
   app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {

@@ -3,11 +3,10 @@ import {
   createSelector,
   createSlice,
 } from "@reduxjs/toolkit";
-import { stat } from "fs";
 import { AsyncThunkConfig, RootState } from "../rootReducer";
 import { browserThunks } from "./browser";
 import { configThunks } from "./config";
-import { obsThunks, selectObs } from "./obs";
+import { obsThunks } from "./obs";
 import { youtubeThunks } from "./youtube";
 
 type State = {
@@ -26,9 +25,12 @@ const onload = createAsyncThunk<void, void, AsyncThunkConfig>(
     await Promise.all([
       dispatch(configThunks.getBrowserSource()),
       dispatch(configThunks.getChannels()),
-      await dispatch(obsThunks.listenStatusChange()),
-      await dispatch(obsThunks.getStatus()),
-      await dispatch(obsThunks.getBrowserSources()),
+    ]);
+    await dispatch(obsThunks.listenStatusChange());
+    await Promise.all([
+      dispatch(obsThunks.connect()),
+      dispatch(obsThunks.getStatus()),
+      dispatch(obsThunks.getBrowserSources()),
     ]);
   }
 );

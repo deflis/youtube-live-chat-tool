@@ -2,9 +2,9 @@ import {
   createAsyncThunk,
   createSelector,
   createSlice,
-  Dispatch,
   PayloadAction,
 } from "@reduxjs/toolkit";
+import { fromIpcResult } from "../../util/fromIpcResult";
 import { AsyncThunkConfig, RootState } from "../rootReducer";
 
 type State = { status: boolean; browserSources: string[] };
@@ -16,10 +16,12 @@ const initialState: State = {
 const listenStatusChange = createAsyncThunk<void, void, AsyncThunkConfig>(
   "obs/listenStatusChange",
   async (_, { dispatch, signal }) => {
-    const unsubscribe = await window.obs.onStatusChange((status) => {
-      dispatch(obsModule.actions.changeStatus(status));
-      dispatch(getBrowserSources());
-    });
+    const unsubscribe = await fromIpcResult(
+      window.obs.onStatusChange((status) => {
+        dispatch(obsModule.actions.changeStatus(status));
+        dispatch(getBrowserSources());
+      })
+    );
     signal.addEventListener("abort", () => {
       unsubscribe();
     });
@@ -27,19 +29,21 @@ const listenStatusChange = createAsyncThunk<void, void, AsyncThunkConfig>(
   }
 );
 
-const connect = createAsyncThunk("obs/connect", () => window.obs.connect());
+const connect = createAsyncThunk("obs/connect", () =>
+  fromIpcResult(window.obs.connect())
+);
 
 const getStatus = createAsyncThunk("obs/getStatus", () =>
-  window.obs.getStatus()
+  fromIpcResult(window.obs.getStatus())
 );
 
 const getBrowserSources = createAsyncThunk("obs/getBrowserSources", () =>
-  window.obs.getBrowserSources()
+  fromIpcResult(window.obs.getBrowserSources())
 );
 
-const setLiveChatUrl = createAsyncThunk("obs/setLiveChatUrl", (id: string) => {
-  return window.obs.setLiveChatUrl(id);
-});
+const setLiveChatUrl = createAsyncThunk("obs/setLiveChatUrl", (id: string) =>
+  fromIpcResult(window.obs.setLiveChatUrl(id))
+);
 
 const obsModule = createSlice({
   name: "obs",

@@ -1,5 +1,10 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { BrowserIpc, ConfigIpc, ObsIpc, YouTubeIpc } from "../interface/ipc";
+import {
+  BrowserIpc,
+  ConfigIpc,
+  ObsIpc,
+  YouTubeIpc,
+} from "../interface/ipc";
 
 contextBridge.exposeInMainWorld("obs", {
   connect: () => {
@@ -12,8 +17,11 @@ contextBridge.exposeInMainWorld("obs", {
     const listener = (e: Electron.IpcRendererEvent, status: boolean) =>
       f(status);
     ipcRenderer.on("obs.onStatusChange", listener);
-    return () => {
-      ipcRenderer.off("obs.onStatusChange", listener);
+    return {
+      status: true,
+      result: () => {
+        ipcRenderer.off("obs.onStatusChange", listener);
+      },
     };
   },
   getBrowserSources: () => {

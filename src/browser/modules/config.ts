@@ -4,6 +4,7 @@ import {
   createSlice,
 } from "@reduxjs/toolkit";
 import { Channel } from "../../interface/config";
+import { fromIpcResult } from "../../util/fromIpcResult";
 import { RootState } from "../rootReducer";
 
 type State = {
@@ -16,30 +17,30 @@ const initialState: State = {
   browserSource: "",
 };
 
-const getChannels = createAsyncThunk("config/getChannel", () => {
-  return window.config.getChannels();
-});
+const getChannels = createAsyncThunk("config/getChannel", () =>
+  fromIpcResult(window.config.getChannels())
+);
 
 const setChannels = createAsyncThunk(
   "config/setChannels",
   async (channels: Channel[]) => {
-    await window.config.setChannels(channels);
+    await fromIpcResult(window.config.setChannels(channels));
     return channels;
   }
 );
 const addChannel = createAsyncThunk("config/addChannel", async (id: string) => {
-  await window.config.addChannel(id);
-  return window.config.getChannels();
+  await fromIpcResult(window.config.addChannel(id));
+  return fromIpcResult(window.config.getChannels());
 });
 
 const getBrowserSource = createAsyncThunk("config/getBrowserSource", () =>
-  window.config.getBrowserSource()
+  fromIpcResult(window.config.getBrowserSource())
 );
 
 const setBrowserSource = createAsyncThunk(
   "config/setBrowserSource",
-  (source: string) => {
-    window.config.setBrowserSource(source);
+  async (source: string) => {
+    await fromIpcResult(window.config.setBrowserSource(source));
     return source;
   }
 );

@@ -1,5 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
+
 import browserModule from "./modules/browser";
 import configModule from "./modules/config";
 import obsModule from "./modules/obs";

@@ -2,6 +2,7 @@ import { ipcMain } from "electron";
 import Store from "electron-store";
 import { Channel, Config } from "../../interface/config";
 import { fetchYouTubeVideosByChannel } from "../../util/fetch";
+import { toIpcResult } from "../../util/toIpcResult";
 
 export function initConfig() {
   const store = new Store<Config>({
@@ -20,22 +21,38 @@ export function initConfig() {
       browserSource: "",
     },
   });
-  ipcMain.handle("config.getChannels", async (event) => {
-    return store.get("channels");
-  });
-  ipcMain.handle("config.setChannels", (event, channels: Channel[]) => {
-    store.set("channels", channels);
-  });
-  ipcMain.handle("config.addChannel", async (event, id: string) => {
-    const channels = store.get("channels").filter((_) => _.id !== id);
-    const { name } = await fetchYouTubeVideosByChannel(id);
-    store.set("channels", [...channels, { id, name }]);
-  });
-  ipcMain.handle("config.getBrowserSource", (event) => {
-    return store.get("browserSource");
-  });
-  ipcMain.handle("config.setBrowserSource", (event, source: string) => {
-    return store.set("browserSource", source);
-  });
+  ipcMain.handle(
+    "config.getChannels",
+    toIpcResult(async (event) => {
+      return store.get("channels");
+    })
+  );
+
+  ipcMain.handle(
+    "config.setChannels",
+    toIpcResult((event, channels: Channel[]) => {
+      store.set("channels", channels);
+    })
+  );
+  ipcMain.handle(
+    "config.addChannel",
+    toIpcResult(async (event, id: string) => {
+      const channels = store.get("channels").filter((_) => _.id !== id);
+      const { name } = await fetchYouTubeVideosByChannel(id);
+      store.set("channels", [...channels, { id, name }]);
+    })
+  );
+  ipcMain.handle(
+    "config.getBrowserSource",
+    toIpcResult((event) => {
+      return store.get("browserSource");
+    })
+  );
+  ipcMain.handle(
+    "config.setBrowserSource",
+    toIpcResult((event, source: string) => {
+      return store.set("browserSource", source);
+    })
+  );
   return store;
 }

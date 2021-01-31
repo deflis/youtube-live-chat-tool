@@ -4,6 +4,7 @@ import {
   createSlice,
 } from "@reduxjs/toolkit";
 import { YouTubeVideos } from "../../interface/YouTubeVideos";
+import { fromIpcResult } from "../../util/fromIpcResult";
 import { RootState } from "../rootReducer";
 
 type State = {
@@ -14,7 +15,7 @@ const initialState: State = {};
 
 const videosByChannel = createAsyncThunk(
   "youtube/videosByChannel",
-  (id: string) => window.youtube.videosByChannel(id)
+  (id: string) => fromIpcResult(window.youtube.videosByChannel(id))
 );
 
 const youtubeModule = createSlice({

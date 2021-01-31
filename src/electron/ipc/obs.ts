@@ -1,6 +1,8 @@
 import { ipcMain } from "electron";
 import Obs from "obs-websocket-js";
 import { ConfigStore } from "../../interface/config";
+import { IpcResultValue } from "../../interface/ipc";
+import { toIpcResult } from "../../util/toIpcResult";
 import { liveChatUrl } from "../../util/youtube";
 import { IpcEvent } from "./browser";
 
@@ -17,16 +19,27 @@ obs.on("ConnectionClosed", () => {
   IpcEvent.emit("obs.onStatusChange", status);
 });
 
-export async function initObs(store: ConfigStore) {
-  await connect(store);
-  ipcMain.handle("obs.connect", (event) => connect(store));
-  ipcMain.handle("obs.getStatus", (event) => status);
-  ipcMain.handle("obs.getBrowserSources", (event) => {
-    if (!status) connect(store);
-    return getBrowserSources();
-  });
-  ipcMain.handle("obs.setLiveChatUrl", (event, id) =>
-    setLiveChatUrl(store.get("browserSource"), id)
+export function initObs(store: ConfigStore) {
+  ipcMain.handle(
+    "obs.connect",
+    async (event) =>
+      ({
+        status: await connect(store),
+      } as IpcResultValue)
+  );
+  ipcMain.handle(
+    "obs.getStatus",
+    (event) => ({ status: true, result: status } as IpcResultValue<boolean>)
+  );
+  ipcMain.handle(
+    "obs.getBrowserSources",
+    toIpcResult((event) => {
+      return getBrowserSources();
+    })
+  );
+  ipcMain.handle(
+    "obs.setLiveChatUrl",
+    toIpcResult((event, id) => setLiveChatUrl(store.get("browserSource"), id))
   );
 }
 
