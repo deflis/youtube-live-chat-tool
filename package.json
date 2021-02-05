@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "description": "YouTube Live 用コメントビューワ",
+  "author": {
+    "name": "riel",
+    "email": "mail@riel.live"
+  },
   "main": "lib/electron/index.js",
   "repository": {
     "type": "git",
