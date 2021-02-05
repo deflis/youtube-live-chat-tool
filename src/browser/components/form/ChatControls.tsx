@@ -53,7 +53,22 @@ export const ChatControls = () => {
           </Spacing>
         </Grid>
       )}
-      {enable && status && (
+      {enable && (
+        <Grid item>
+          <Spacing>
+            <Button
+              variant="contained"
+              color="primary"
+              component="a"
+              href={`https://studio.youtube.com/video/${videoId}/livestreaming`}
+              target="_blank"
+            >
+              ライブ配信ページを開く
+            </Button>
+          </Spacing>
+        </Grid>
+      )}
+       {enable && status && (
         <Grid item>
           <Spacing>
             <Button variant="contained" color="primary" onClick={changeSource}>

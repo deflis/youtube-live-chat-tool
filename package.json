@@ -28,9 +28,7 @@
       "package-lock.json"
     ],
     "mac": {
-      "target": [
-        "dmg"
-      ]
+      "target": "dmg"
     },
     "win": {
       "target": "nsis"
@@ -38,10 +36,17 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "deflis",
+      "repo": "youtube-live-chat-tool",
+      "releaseType": "release"
     }
   },
   "license": "ISC",
   "scripts": {
+    "postinstall": "electron-builder install-app-deps",
     "start": "electron .",
     "watch": "run-p watch:*",
     "watch:browser": "parcel watch src/browser/index.html --public-url ./ --out-dir lib/browser --no-hmr",
