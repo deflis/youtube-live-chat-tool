@@ -94,7 +94,7 @@
   "dependencies": {
     "electron-store": "^7.0.0",
     "fast-xml-parser": "^3.17.6",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "obs-websocket-js": "^4.0.2",
     "ws": "^7.4.2"
   }
