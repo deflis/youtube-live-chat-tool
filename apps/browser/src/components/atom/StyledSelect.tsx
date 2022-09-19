@@ -1,4 +1,4 @@
-import { Select, styled } from "@material-ui/core";
+import { Select, styled } from "@mui/material";
 
 export const StyledSelect = styled(Select)(({ theme }) => ({
   minWidth: "200px",

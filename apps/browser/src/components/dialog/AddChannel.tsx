@@ -8,7 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { configThunks } from "../../modules/config";
 import { useAppDispatch } from "../../store";
@@ -46,12 +46,12 @@ export function AddChannel({
           {"https://www.youtube.com/channel/{id} のid部分を入力してください"}
         </DialogContentText>
         <TextField
+          variant="standard"
           autoFocus
           label="チャンネルID"
           fullWidth
           value={newId}
-          onChange={handleChangeNewId}
-        />
+          onChange={handleChangeNewId} />
       </DialogContent>
       <DialogActions>
         <Button onClick={toggleOpen} color="primary">

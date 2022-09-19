@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 
-import { Box, Button, Grid, styled } from "@material-ui/core";
+import { Box, Button, Grid, styled } from "@mui/material";
 
 import { selectObsStatus } from "../../modules/obs";
 import {

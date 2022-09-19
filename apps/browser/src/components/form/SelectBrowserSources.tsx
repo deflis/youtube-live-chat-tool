@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { Button, IconButton, InputLabel } from "@material-ui/core";
-import MenuItem from "@material-ui/core/MenuItem";
+import { Button, IconButton, InputLabel } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
 
 import { configThunks, selectConfigBrowserSource } from "../../modules/config";
 import {
@@ -13,7 +13,7 @@ import {
 import { useAppDispatch } from "../../store";
 import { StyledFormControl } from "../atom/StyledFormControl";
 import { StyledSelect } from "../atom/StyledSelect";
-import CachedIcon from "@material-ui/icons/Cached";
+import CachedIcon from "@mui/icons-material/Cached";
 export interface SelectBrowserSourcesProps {}
 
 export function SelectBrowserSources({}: SelectBrowserSourcesProps) {
@@ -46,36 +46,34 @@ export function SelectBrowserSources({}: SelectBrowserSourcesProps) {
     dispatch(obsThunks.getBrowserSources());
   }, [dispatch]);
 
-  return (
-    <>
-      {!status && (
-        <>
-          OBSに接続していません。OBSを起動して再接続してください。
-          <Button variant="contained" onClick={handleReconnect}>
-            再接続
-          </Button>
-        </>
-      )}
-      {status && (
-        <StyledFormControl variant="outlined">
-          <InputLabel>ソース</InputLabel>
-          <StyledSelect
-            value={current}
-            onChange={handleChange}
-            endAdornment={
-              <IconButton onClick={handleReload}>
-                <CachedIcon />
-              </IconButton>
-            }
-          >
-            {sources?.map((source) => (
-              <MenuItem value={source} key={source}>
-                {source}
-              </MenuItem>
-            ))}
-          </StyledSelect>
-        </StyledFormControl>
-      )}
-    </>
-  );
+  return <>
+    {!status && (
+      <>
+        OBSに接続していません。OBSを起動して再接続してください。
+        <Button variant="contained" onClick={handleReconnect}>
+          再接続
+        </Button>
+      </>
+    )}
+    {status && (
+      <StyledFormControl variant="outlined">
+        <InputLabel>ソース</InputLabel>
+        <StyledSelect
+          value={current}
+          onChange={handleChange}
+          endAdornment={
+            <IconButton onClick={handleReload} size="large">
+              <CachedIcon />
+            </IconButton>
+          }
+        >
+          {sources?.map((source) => (
+            <MenuItem value={source} key={source}>
+              {source}
+            </MenuItem>
+          ))}
+        </StyledSelect>
+      </StyledFormControl>
+    )}
+  </>;
 }

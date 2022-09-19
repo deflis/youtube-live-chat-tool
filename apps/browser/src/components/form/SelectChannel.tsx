@@ -9,9 +9,9 @@ import {
   InputLabel,
   MenuItem,
   styled,
-} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import BuildIcon from "@material-ui/icons/Build";
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import BuildIcon from "@mui/icons-material/Build";
 
 import { selectConfigChannels } from "../../modules/config";
 import { selectChannelId, systemThunks } from "../../modules/system";

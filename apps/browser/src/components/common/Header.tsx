@@ -1,8 +1,8 @@
-import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import React, { useCallback } from "react";
 import { ObsStatus } from "../atom/ObsStatus";
-import MenuIcon from "@material-ui/icons/Menu";
-import { styled } from "@material-ui/core/styles";
+import MenuIcon from "@mui/icons-material/Menu";
+import { styled } from "@mui/material/styles";
 import { useAppDispatch } from "../../store";
 import { obsThunks } from "../../modules/obs";
 
@@ -18,11 +18,11 @@ export function Header() {
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton edge="start" color="inherit">
+        <IconButton edge="start" color="inherit" size="large">
           <MenuIcon />
         </IconButton>
         <HeaderTitile variant="h6">YouTube Live Chat Tool</HeaderTitile>
-        <IconButton edge="end" color="inherit" onClick={handleConnect}>
+        <IconButton edge="end" color="inherit" onClick={handleConnect} size="large">
           <ObsStatus />
         </IconButton>
       </Toolbar>

@@ -12,7 +12,7 @@ import {
   ListItemIcon,
   ListItemText,
   Radio,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { configThunks, selectConfigChannels } from "../../modules/config";
 import { useAppDispatch } from "../../store";

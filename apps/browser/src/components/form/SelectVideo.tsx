@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 
-import { InputLabel, MenuItem } from "@material-ui/core";
+import { InputLabel, MenuItem } from "@mui/material";
 
 import { selectVideoId, systemThunks } from "../../modules/system";
 import { selectYouTubeVideos } from "../../modules/youtube";

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import Snackbar from "@material-ui/core/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import { useToggle } from "react-use";
-import Alert from "@material-ui/lab/Alert";
+import Alert from '@mui/material/Alert';
 
 export type ToastProps = {
   open: boolean;

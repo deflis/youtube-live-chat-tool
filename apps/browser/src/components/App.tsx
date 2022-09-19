@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
-import { Container, Grid, Paper, styled, Typography } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { Container, Grid, Paper, styled, Typography } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import { systemThunks } from "../modules/system";
 import { useAppDispatch } from "../store";

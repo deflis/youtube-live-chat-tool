@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useEffectOnce } from "react-use";
 import { Toast } from "./Toast";
-import PowerIcon from "@material-ui/icons/Power";
-import WarningIcon from "@material-ui/icons/Warning";
+import PowerIcon from "@mui/icons-material/Power";
+import WarningIcon from "@mui/icons-material/Warning";
 import { useSelector } from "react-redux";
 import { selectObsStatus } from "../../modules/obs";
 

@@ -8,11 +8,14 @@
     "build": "vite build"
   },
   "dependencies": {
-    "ipc-interfaces": "*",
-    "@material-ui/core": "^4.11.3",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.3",
+    "@mui/lab": "^5.0.0-alpha.99",
+    "@mui/material": "^5.10.5",
+    "@mui/styles": "^5.10.3",
     "@reduxjs/toolkit": "^1.5.0",
+    "ipc-interfaces": "*",
     "npm-run-all": "^4.1.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

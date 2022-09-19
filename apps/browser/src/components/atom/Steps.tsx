@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Step, StepLabel, Stepper } from "@material-ui/core";
+import { Step, StepLabel, Stepper } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectSystemSteps } from "../../modules/system";
 
