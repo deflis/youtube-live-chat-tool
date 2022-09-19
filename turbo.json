@@ -3,11 +3,22 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["lib/**", "dist/**"]
+      "outputs": ["lib/**"],
+      "inputs": ["!lib/**", "!dist/**"]
     },
     "start": {
       "cache": false,
       "dependsOn": ["build"]
+    },
+    "package:win": {
+      "dependsOn": ["build"],
+      "outputs": ["lib/**", "dist/**"],
+      "inputs": ["!lib/**", "!dist/**"]
+    },
+    "package:mac": {
+      "dependsOn": ["build"],
+      "outputs": ["lib/**", "dist/**"],
+      "inputs": ["!lib/**", "!dist/**"]
     },
     "lint": {
       "outputs": []
