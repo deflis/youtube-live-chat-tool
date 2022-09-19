@@ -14,5 +14,6 @@ jobs:
         with:
           node-version: "14"
       - run: npm ci
-      - run: npm run check
-      - run: npm test
+      # まだチェックには対応していません
+      #- run: npm run check
+      #- run: npm test
