@@ -45,5 +45,5 @@ export function createWindow(store: ConfigStore) {
   IpcEvent.on("ipc", handler);
 
   win.loadFile(join(__dirname, "../browser/index.html"));
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 }
